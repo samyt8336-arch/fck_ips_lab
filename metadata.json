@@ -1,0 +1,6 @@
+{
+  "name": "OpenSSL FIPS Validation Lab",
+  "description": "A comprehensive frontend simulator for testing FIPS 140-3 approved and unapproved cryptographic algorithms using OpenSSL simulated commands.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
