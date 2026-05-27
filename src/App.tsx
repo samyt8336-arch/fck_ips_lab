@@ -97,7 +97,7 @@ export default function App() {
         addLog("No output", "info");
       }
       if (data.rawError) {
-         addLog(data.rawError, "error");
+        addLog(data.rawError, "error");
       }
 
       const isError = data.exitCode !== 0;
@@ -178,9 +178,7 @@ export default function App() {
             <Lock className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1
-              className="text-xl font-bold tracking-tight uppercase"
-            >
+            <h1 className="text-xl font-bold tracking-tight uppercase">
               FIPS Validation Lab
             </h1>
             <p className="text-xs text-slate-400">
@@ -214,8 +212,9 @@ export default function App() {
               <span className="font-mono font-medium text-slate-700 mx-1">
                 OpenSSL
               </span>
-              instance on the backend. Negative tests like MD5 are designed to be{" "}
-              <strong>rejected</strong> when the host is operating in a strict FIPS mode.
+              instance on the backend. Negative tests like MD5 are designed to
+              be <strong>rejected</strong> when the host is operating in a
+              strict FIPS mode.
             </p>
           </div>
 
