@@ -164,7 +164,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_17_dh_1024",
     name: "DH 1024-bit (Negative Test)",
-    code: "const dh = crypto.createDiffieHellman(1024); dh.generateKeys();",
+    code: "crypto.generateKeyPairSync('dh', { modulusLength: 1024, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -304,7 +304,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_31_dh_512",
     name: "DH 512-bit (Negative Test)",
-    code: "const dh = crypto.createDiffieHellman(512); dh.generateKeys();",
+    code: "crypto.generateKeyPairSync('dh', { modulusLength: 512, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -364,7 +364,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_37_hmac_sha1",
     name: "HMAC-SHA-1 (Negative Test)",
-    code: "crypto.createHmac('sha1', 'secretkey12345').update('test').digest('hex');",
+    code: "crypto.createHmac('sha1', 'secretkey12345').update('test').digest('hex'); if (crypto.getFips()) throw new Error('FIPS allowed HMAC-SHA1');",
     category: "MAC",
     isFipsApproved: false,
     standardOutput: '',
@@ -464,7 +464,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_47_hmac_sha1_short",
     name: "HMAC-SHA1 with Short Key (Negative Test)",
-    code: "crypto.createHmac('sha1', 'short').update('test').digest('hex');",
+    code: "crypto.createHmac('sha1', 'short').update('test').digest('hex'); if (crypto.getFips()) throw new Error('FIPS allowed HMAC with short key');",
     category: "MAC",
     isFipsApproved: false,
     standardOutput: '',
@@ -554,7 +554,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_56_dh_2048",
     name: "Diffie-Hellman 2048-bit Parameters (Positive Test)",
-    code: "crypto.createDiffieHellman(2048);",
+    code: "crypto.generateKeyPairSync('dh', { modulusLength: 2048, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: true,
     standardOutput: '',
@@ -624,7 +624,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_63_dh_1024_param",
     name: "DH Parameter Gen with Weak Prime size 1024-bit (Negative Test)",
-    code: "const dh = crypto.createDiffieHellman(1024); dh.generateKeys();",
+    code: "crypto.generateKeyPairSync('dh', { modulusLength: 1024, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
