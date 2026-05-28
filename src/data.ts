@@ -313,13 +313,13 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   },
   {
     id: "test_32_aes_192_ofb",
-    name: "AES-192-OFB (Negative Test)",
-    code: "const key = Buffer.alloc(24, 0); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-192-ofb', key, iv); cipher.update('test', 'utf8', 'hex'); cipher.final('hex'); ",
+    name: "AES-192-OFB (Positive Test)",
+    code: "const key = Buffer.alloc(24, 0); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-192-ofb', key, iv); cipher.update('test', 'utf8', 'hex'); cipher.final('hex');",
     category: "Symmetric",
-    isFipsApproved: false,
+    isFipsApproved: true,
     standardOutput: '',
     fipsOutput: '',
-    description: "While AES is the standard, modes like OFB (Output Feedback) are often unsupported in FIPS providers in strict OpenSSL implementations and will be rejected."
+    description: "AES in Output Feedback (OFB) mode is an approved confidential block cipher mode."
   },
   {
     id: "test_33_seed",
@@ -354,7 +354,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_36_gost",
     name: "GOST 28147 (Negative Test)",
-    code: "crypto.createHash('sha256').update('test').digest('hex');",
+    code: "crypto.createHash('md_gost94').update('test').digest('hex');",
     category: "Hashing",
     isFipsApproved: false,
     standardOutput: '',
@@ -424,7 +424,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_43_x25519",
     name: "X25519 Key Agreement (Negative Test)",
-    code: "crypto.generateKeyPairSync('x25519');",
+    code: "const keys = crypto.generateKeyPairSync('x25519'); crypto.diffieHellman({ privateKey: keys.privateKey, publicKey: keys.publicKey }); if (crypto.getFips()) throw new Error('FIPS allowed X25519');",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -454,7 +454,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_46_ecdsa_p192",
     name: "ECDSA KeyGen with P-192 (Negative Test)",
-    code: "crypto.generateKeyPairSync('ec', { namedCurve: 'prime192v1' });",
+    code: "crypto.generateKeyPairSync('ec', { namedCurve: 'prime192v1' }); if (crypto.getFips()) throw new Error('FIPS allowed P-192');",
     category: "Asymmetric",
     isFipsApproved: false,
     standardOutput: '',
@@ -564,7 +564,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_57_x448",
     name: "X448 Key Agreement (Negative Test)",
-    code: "crypto.generateKeyPairSync('x448');",
+    code: "const keys = crypto.generateKeyPairSync('x448'); crypto.diffieHellman({ privateKey: keys.privateKey, publicKey: keys.publicKey }); if (crypto.getFips()) throw new Error('FIPS allowed X448');",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -594,7 +594,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_60_kbkdf",
     name: "KBKDF SP800-108 Counter Mode (Positive Test)",
-    code: "",
+    code: "crypto.createHmac('sha256', 'key').update(Buffer.from([0,0,0,1,107,98,107,100,102,0])).digest();",
     category: "Key Derivation",
     isFipsApproved: true,
     standardOutput: '',
@@ -604,7 +604,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_61_hkdf_short",
     name: "HKDF with Short Key < 112 bits (Negative Test)",
-    code: "crypto.hkdfSync('sha256', Buffer.alloc(4, 0), 'salt', 'test', 32);",
+    code: "crypto.hkdfSync('sha256', Buffer.alloc(4, 0), 'salt', 'test', 32); if (crypto.getFips()) throw new Error('FIPS mode allowed short key in HKDF');",
     category: "Key Derivation",
     isFipsApproved: false,
     standardOutput: '',
@@ -614,7 +614,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_62_ffdhe_3072",
     name: "FFDHE-3072 Key Generation (Positive Test)",
-    code: "crypto.createDiffieHellman(3072);",
+    code: "const dh = crypto.getDiffieHellman('modp3072'); dh.generateKeys();",
     category: "Key Agreement",
     isFipsApproved: true,
     standardOutput: '',
@@ -634,7 +634,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_64_aes_256_xts",
     name: "AES-256-XTS for Storage (Positive Test)",
-    code: "const key = Buffer.alloc(64, 0); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-256-xts', key, iv); cipher.update('test', 'utf8', 'hex'); cipher.final('hex'); ",
+    code: "const key1 = crypto.randomBytes(32); const key2 = Buffer.from(key1); key2[0] ^= 1; const key = Buffer.concat([key1, key2]); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-256-xts', key, iv); cipher.update('test', 'utf8', 'hex'); cipher.final('hex');",
     category: "Symmetric",
     isFipsApproved: true,
     standardOutput: '',
