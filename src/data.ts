@@ -164,7 +164,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_17_dh_1024",
     name: "DH 1024-bit (Negative Test)",
-    code: "crypto.generateKeyPairSync('dh', { modulusLength: 1024, generator: 2 });",
+    code: "crypto.generateKeyPairSync('dh', { primeLength: 1024, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -304,7 +304,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_31_dh_512",
     name: "DH 512-bit (Negative Test)",
-    code: "crypto.generateKeyPairSync('dh', { modulusLength: 512, generator: 2 });",
+    code: "crypto.generateKeyPairSync('dh', { primeLength: 512, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -554,7 +554,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_56_dh_2048",
     name: "Diffie-Hellman 2048-bit Parameters (Positive Test)",
-    code: "crypto.generateKeyPairSync('dh', { modulusLength: 2048, generator: 2 });",
+    code: "crypto.generateKeyPairSync('dh', { primeLength: 2048, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: true,
     standardOutput: '',
@@ -624,7 +624,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_63_dh_1024_param",
     name: "DH Parameter Gen with Weak Prime size 1024-bit (Negative Test)",
-    code: "crypto.generateKeyPairSync('dh', { modulusLength: 1024, generator: 2 });",
+    code: "crypto.generateKeyPairSync('dh', { primeLength: 1024, generator: 2 });",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
