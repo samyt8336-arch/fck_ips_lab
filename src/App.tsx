@@ -67,13 +67,13 @@ export default function App() {
     }));
 
     addLog(`Executing on Backend Container`, "info");
-    addLog(test.command, "cmd");
+    addLog(test.code, "cmd");
 
     try {
       const response = await fetch("/api/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: test.command }),
+        body: JSON.stringify({ code: test.code }),
       });
 
       const data = await response.json();
@@ -283,7 +283,7 @@ export default function App() {
 
                           <div className="flex items-center gap-2 mt-auto">
                             <code className="text-[11px] font-mono bg-slate-50 text-slate-600 px-2 py-1 rounded border border-slate-200 flex-1 truncate">
-                              {test.command}
+                              {test.code}
                             </code>
 
                             {result?.result === "passed" && (

@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { exec } from "child_process";
+import { execFile } from "child_process";
 
 async function startServer() {
   const app = express();
@@ -9,17 +9,21 @@ async function startServer() {
 
   app.use(express.json());
 
-  // Execute OpenSSL commands
+  // Execute Node.js FIPS commands
   app.post("/api/execute", (req, res) => {
-    const { command } = req.body;
+    const { code } = req.body;
 
-    if (!command || typeof command !== "string") {
-      return res.status(400).json({ error: "Invalid command." });
+    if (!code || typeof code !== "string") {
+      return res.status(400).json({ error: "Invalid code." });
     }
 
-    // Safety: we are allowing direct execution because it's a simulated lab for the user's specific request.
-    exec(command, (error, stdout, stderr) => {
-      // In FIPS/OpenSSL tests, sometimes "error" is populated but we just want to return the output
+    const wrappedScript = `
+const crypto = require('crypto');
+try { crypto.setFips(true); } catch(e) {}
+${code}
+`;
+
+    execFile("node", ["-e", wrappedScript], (error, stdout, stderr) => {
       const result = {
         exitCode: error ? error.code : 0,
         stdout: stdout.trim(),
