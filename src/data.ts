@@ -164,7 +164,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_17_dh_1024",
     name: "DH 1024-bit (Negative Test)",
-    code: "crypto.createDiffieHellman(1024);",
+    code: "const dh = crypto.createDiffieHellman(1024); dh.generateKeys();",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -304,7 +304,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_31_dh_512",
     name: "DH 512-bit (Negative Test)",
-    code: "crypto.createDiffieHellman(512);",
+    code: "const dh = crypto.createDiffieHellman(512); dh.generateKeys();",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -614,7 +614,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_62_ffdhe_3072",
     name: "FFDHE-3072 Key Generation (Positive Test)",
-    code: "const dh = crypto.getDiffieHellman('modp3072'); dh.generateKeys();",
+    code: "const dh = crypto.getDiffieHellman('modp15'); dh.generateKeys();",
     category: "Key Agreement",
     isFipsApproved: true,
     standardOutput: '',
@@ -624,7 +624,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_63_dh_1024_param",
     name: "DH Parameter Gen with Weak Prime size 1024-bit (Negative Test)",
-    code: "crypto.createDiffieHellman(1024);",
+    code: "const dh = crypto.createDiffieHellman(1024); dh.generateKeys();",
     category: "Key Agreement",
     isFipsApproved: false,
     standardOutput: '',
@@ -634,7 +634,7 @@ export const FIPS_TEST_SUITE: TestCase[] = [
   {
     id: "test_64_aes_256_xts",
     name: "AES-256-XTS for Storage (Positive Test)",
-    code: "const key1 = crypto.randomBytes(32); const key2 = Buffer.from(key1); key2[0] ^= 1; const key = Buffer.concat([key1, key2]); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-256-xts', key, iv); cipher.update('test', 'utf8', 'hex'); cipher.final('hex');",
+    code: "const key1 = crypto.randomBytes(32); const key2 = Buffer.from(key1); key2[0] ^= 1; const key = Buffer.concat([key1, key2]); const iv = Buffer.alloc(16, 0); const cipher = crypto.createCipheriv('aes-256-xts', key, iv); cipher.update('test1234test1234', 'utf8', 'hex'); cipher.final('hex');",
     category: "Symmetric",
     isFipsApproved: true,
     standardOutput: '',
